@@ -1,0 +1,67 @@
+ANOVA 1 VIA PARA MUESTRAS CORRELACIONADAS
+
+tambien llamada ANOVA para medidas repetidas o ANOVA intra-sujetos
+
+puede asociarse a la prueba t con muestras pareadas
+con 3 o más mediciones (o condiciones)
+
+2 escenarios
+
+diseño con medidas repetidas (más común en informática)
+diseño con bloques aleatorios
+
+
+condiciones 
+
+1 escala intervalos iguales
+2 las mediciones son independientes al interior de cada grupo
+3 suponer razonablemente que las poblaciones de origuen siguen una distro normal
+4 la matriz de varianzas-covarianzas es esférica
+
+
+
+nueva identidad
+
+SSwg = SSsujetos + SSerror
+
+resumen
+
+
+en R
+
+aov(tiempo ~ algoritmo + Error(instancia/(algoritmo)), data = datos)
+ezANOVA(data = datos, dv = tiempo, within = algoritmo, wid = instancia, return_aov = TRUE)
+
+
+como ezANOVA() hace la prueba de esfericidad de Mauchly 
+también hace las correciones de Greenhouse-Geisser y Huynd-Feldt
+
+si los datos no cumplieran con la esfericidad, deberíamos considerar p[GG] como 
+p-valor de la prueba 
+
+post hoc
+
+bonferroni y Holm, debemos asignar paired = TRUE en la funcion pairwise.t.test()
+HSD de Tukey y Scheffé dan error por lo que debemos hacer una alternativa
+
+el primer  paso es crear un modelo mixto
+lme(formula,data,random) del paquete nlme 
+
+formula: tiene la forma <variable dependiente> ~ <variable categorica>
+data : matriz de datos en formato largo
+random : formula de la forma ~1|<identificador del sujeto>
+
+el segundo paso es estimar la media de la variable dependiente , con su respectivo
+intervalo de confianza, para cada nivel de la variable categórica
+
+emmeans(object, specs) del paquete emmeans
+
+object : modelo mixto 
+specs : nombre del factor en estudio, delimitado por comillas
+
+el último paso es estimar las medias de las diferencias para los contraste entre 
+pares, con su error estándar y los valores p correspondientes, mediante la función
+pairs(x, adjust) 
+
+x: diferencias obtenidas anteriormente
+adjust : méodo para ajustar los valores p. "tukey" o "scheffe"

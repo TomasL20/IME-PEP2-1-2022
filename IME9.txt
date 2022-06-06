@@ -1,0 +1,102 @@
+IME
+Lecturas 9-13 y ejercicios prácticos asociados (EP08-EP12).
+
+lectura 9 
+
+ANOVA 1 VIA MUESTRAS INDEPENDIENTES
+
+t student inferir diferencia media poblaciones de dos muestras 
+
+proporciones prueba Q de Cochran (omnibus) luego hacer post hoc
+
+una variable independiente de tipo categorica, un factor cuyos niveles definen
+los grupos que están comparando
+
+H0 : mu1 = mu2 , es una prueba omnibus
+hA : mu1 != mu2
+
+condiciones
+- escala de intervalos iguales
+- k muestras aleatoria e independientes desde las poblaciones de origen
+- suponemos razonablemente que las poblaciones de origen siguen una distro normal
+- las k muestras tienen varianzas aproximadamente iguales (homocedasticidad)
+
+homocedasticidad: comprobar que la razon entre la max y la min varianza muestral de los grupos
+no sea superior a 1,5
+
+ANOVA es una prueba robusta 
+
+ANOVA se centra en la variabilidad de las muestras
+
+estadístico de prueba F
+
+pf(F, 2,12, lower.tail = false)
+
+resultado ANOVA de forma tabular
+
+para la conclusión se compara el valor p con el nivel de significacion 
+p < alfa -> rechaza H0 en favor de Ha , 97.5% de confianza que el tiempo 
+					de ejecución promedio es diferente
+					para al menos uno de los algoritmos
+
+
+ANOVA con 2 grupos es equivalente a prueba t de Student y F sería igual al cuadrado de t
+
+
+resumen
+
+aov(formula (variable_dependiente ~ variable_independiente), data)
+
+ezANOVA(data, dv, wid, between, return_aov) del paquete ez
+ 
+data : dataframe con los datos
+dv: variable dependiente (numerica con escala de igual intervalo)
+wid: variable (factor) con el id de cada instancia
+between: variable independiente (factor)
+return_aov : si es verdadero, devuelve un objetivo de tipo aov para uso posterior
+
+type = 2
+
+
+ezANOVA realiza la prueba de homocedastidad 
+
+funcion ezPlot(data, dv, wid, between, x) grafica tamaño del efecto medido
+-----------------------------------------------------
+
+pruebas post hoc
+
+correccoines de bonferroni y Holm
+
+--------------------------------------------
+prueba HSD de Tukey (más poderosa que la anterior) , emplea el estadístico Q
+qtukey(alfa, nm, vwg, lower.tail = FALSE) obtiene Qalfa
+HSDalfa = Qalfa * raiz ( MSwg/nm)
+una diferencia entre las medias de dos grupos unicamente es significativa si es mayor
+o igual a HSDalfa
+
+
+TukeyHSD(x, which, ordered, conf.level)
+x : objetivo tipo aov
+which: string nombre de la variable para la que se calculan las diferencias
+ordered: valor lógico que, cuando es verdadero, hace que los grupos se ordenen de acuerdo
+	a sus medias a fin de obtener diferencias significativas
+conf.level : nivel de confianza
+
+
+---------------------------------------
+prueba de comparación de Scheffé
+
+es conservadora pero permite hacer comparaciones adicionales
+por ejemplo, podriamos preguntar si un grupo es mejor que todos los demás
+
+contrastes 
+matriz de contrastes
+estimadores de los contrastes
+
+
+ScheffeTest(x, which, contrasts, conf.level) del paquete DescTools 
+
+x : objeto aov
+which : variable independiente en la prueba
+contrasts: matriz con los contrastes (cada contraste es una columna)
+conf.level : nivel de confianza

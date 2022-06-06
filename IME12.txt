@@ -1,0 +1,78 @@
+Remuestreo no paramétrico
+
+bootstrapping
+
+pasos
+
+1- generar B nuevas muestras a partir de la original del mismo tamaño usando muestreo con reposición
+2- calcular distro bootstrap y obtener el estadístico de intéres para cada una de las muestras
+3- usar la distro bootstrap 
+
+además de contrastar hipótesis, permite contruir intervalos de confianza para 
+el parámetro estimado de la población
+
+1 muestra
+
+sesgo : indica cuánto se aleja el estadístico de interés de la muestra original de
+la media de la distro bootstrap
+
+construir intervalo de confianza 
+
+distro bootstrap normal y segos pequeño -> construir usando distro t
+
+construir en base a cuantiles 
+
+si son muy diferentes , no podemos asumir que la distro bootstrap se asemeja normal
+por lo que debemos usar BCa
+
+en R 
+
+paquete boot
+boot(data, statistic, R) para generar la distro bootstrap
+boot.ci(boot.out, conf, type) para calcular los intervalos de confianza
+
+data: en caso de matrices y data frames, cada fila es una observación con multiples variables
+statistic : funcion que se aplica a los datos y devuelve un vector con el o los estadísticos de interés
+R: cantidad de remuestreos bootstrap 
+boot.out : objeto de clase boot
+conf: 1 - alfa
+type : string o vector que indica los tipos de intervalo de confianza a construir
+"norm", "perc" y "bca"
+
+------------
+
+bootstrapping 2  muestras independientes 
+
+two.boot(sample1, sample2, FUN, R) del paquete simpleboot
+
+sample1, sample2 : muestras originales
+FUN: función que, para cada muestra, calcula el estadísticoo de interés theta
+R: cantidad de remuestreos con repetición
+
+----------------
+
+
+bootstrapping 2 muestras pareadas
+
+se crea una nueva muestra con la diferencia entre ambas, y luego se construye
+el intervalo de confianza de la misma forma que el caso de una muestra
+
+-------------
+
+prueba de permutaciones 
+
+método monte carlo
+
+---------
+
+prueba de permutaciones para comparar una variable continua en dos muestras independientes
+
+existen algunos paquetes de R para realizar pruebas de permutaciones
+
+se creó la función contrastar_hipotesis_permutaciones()
+
+-------------------
+
+
+prueba de permutacciones para comparar medias de más de dos muestras correlacionadas
+

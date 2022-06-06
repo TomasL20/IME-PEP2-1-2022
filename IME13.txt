@@ -1,0 +1,117 @@
+trasnformación de datos
+
+transformacion lineal
+
+en R se puede hacer con operaciones vectorialmente
+
+transformacion logaritmica 
+
+cuando tenemos distros muy asimétricas
+log(x, base)
+evidencia patrones más claros para la relación entre variables
+
+cuidado cuando comparamos medias, en realidad compara la media geométrica
+---------------------------
+
+escalera de potencias de Tukey
+
+sirve para asemejar la distro hacia una normal
+
+paquete rcompanion
+
+transformTukey(x, start, end, int, plotit, verbose, quiet, statistic, returnLambda)
+
+---------------------
+transformación box cox
+
+paquete DescTools 
+
+BoxCoxLambda(x, lower, upper) : devuelve el lambda óptimo
+BoxCox(x, lambda) : devuelve un vector que corresponde a la transformación box cox
+BoxCoxInv(x, lambda) : revierte la transformación
+
+x: vector numérico
+lower: limite inferior lambda
+upper: limite superior lambda
+lambda : parámetro de la transformación
+
+
+-----------------
+métodos robustos
+
+alternativas robustas a muchas de las pruebas estudiadas 
+disponible en el paquete WRS2
+
+
+--------------------------------------
+alternativas robustas para la media
+
+media truncada : descarta un porcentaje gamma de los extremos. 0,1 <= gamma <= 0,5
+mean(x, trim = gamma)
+
+media winsorizada : reemplaza los valores que serían descartados por los extremos de la media truncada
+winmean(x, tr = gamma)
+
+-----------------
+
+prueba de yuen 
+
+alternativa a la prueba t de Student para muestras independientes
+cuando las varianzas de ambas muestras son muy diferentes o los tamaños
+de las muestras son muy dispares
+
+yuen(formula, data, tr)
+formula: <variable dependiente>~<variable independiente>
+data : matriz de datos
+tr: gamma con que se poda
+
+para pruebas unilaterales se recomienda la variante con bootstrap
+yuen(formula, data, tr, nboot)
+
+nboot : cantidad de muestras a generar
+
+pb2gen(formula, data, est, nboot) usa bootstrapping para aplicar la prueba de yuen
+usando otras medidas de tendencia central
+
+est : "mean" , "median", entre otras opciones
+
+--------------------------------
+
+prueba yuen para dos muestras pareadas
+
+yuend(x, y, tr)
+
+----------------------------
+
+alternativas a ANOVA 1 Vía Muestras Independientes
+
+se usan cuando los tamaños muestrales son muy diferentes o no se cumple homocedasticidad
+
+t1way(formula, data, tr, alpha) ANOVA usando medias truncadas
+lincon(formula, data, tr, alpha) realiza post hoc
+
+t1waybt(formula, data, tr, nboot) incorpora bootstrapping 
+mcppb20(formula, data, tr,  nboot) post hoc 
+
+med1way(formula, data, iter) emplea la mediana y sigue proceso iterativo
+no tiene funcion post hoc implementadas
+
+
+---------------------
+alternativas ANOVA 1 VIA Muestras Correlacionadas
+
+se usa cuando los datos disponibles violan la condición de esfericidad
+
+rmanova(y, groups, blocks, tr) usa medias truncadas 
+rmmcp(y, groups, blocks, tr, alpha) post hoc
+
+rmanovab(y, groups, blocks, tr, nboot) incorpora bootstrapping
+pairdepb(y, groups, blocks, tr, nboot) post hoc
+
+formula : <variable dependiente>~<variable independiente>
+y : vector con la variable dependiente
+groups : vector que indica los grupos
+blocks: vector que identifica los sujetos o bloques
+tr : gamma con que se poda
+alpha : nivel de significación
+nboot : cantidad de muestras a generar

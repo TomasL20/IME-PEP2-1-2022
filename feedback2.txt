@@ -1,0 +1,5 @@
+-Tengan cuidado con la redacción y con las tildes, sobre todo cuando redactan las hipótesis y las conclusiones. En algunos EP faltaba mencionar qué estaban estudiando, porque colocaban "el promedio de personas..." pero en realidad querían referirse al promedio de los ingresos. Así que ahí traten de ser detallados, y mencionar el promedio de qué están estudiando.
+- Siempre verifiquen el cumplimiento de las condiciones. No lleguen y hagan el test. Además, mencionen qué van a hacer y por qué, por ejemplo "se piensa aplicar un test de ANOVA para muestras independientes porque blabla..."
+- Para el caso del procedimiento Post Hoc, es específico, el de HSD Tukey, tengan cuidado de cómo lo aplican, porque cuando son muestras correlacionadas, se debe realizar un ajuste mixto. 
+- Otra cosa muy importante es que siempre siempre en la hipótesis nula va la igualdad, o la frase "No existe diferencia". Mientras que en la alternativa va la diferencia o el ">= que". 
+- No olvidar expresar las hipótesis tanto en lenguaje natural como matemático. 

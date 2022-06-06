@@ -1,0 +1,119 @@
+INFERENCIA NO PARAMÉTRICA CON MEDIANAS 
+
+prueba de suma de rangos de Wilcoxon
+
+alternativa no paramétrica a la prueba t de Student con muestras independientes
+
+condiciones
+
+- las observaciones de ambas muestras son independientes
+- la escala de medición debe ser a lo menos ordinal
+
+no todas las escalas likert pueden asegurar ser de intervalos iguales
+como alternativa podemos usar la prueba no paramétrica de Wilcoxon-Mann-Whitney
+
+entrega menos información que la prueba paramétrica equivalente
+
+pasos
+
+- combinar todas las observaciones en un único conjunto ordenado de menor a mayor
+- a cada elemento se le asigna un valor de rango de 1 a nt, de acuerdo a la posicion
+que ocupa en el conjunto ordenado, en caso de que un valor aparezca más de una vez, 
+cada repetición toma como valor el rango promedio de todas las ocurrencias del valor
+
+- se suman los rangos asociados a las observaciones de cada muestra y para la muestra combinada
+
+
+
+la hipótesis nula en el dominio de los rangos es que las medias de los rangos de las dos muestras son iguales
+
+
+la prueba de Wilcoxon-Mann-Whitney tiene dos variantes según el tamaño de las muestras
+
+wilcox.test(x,y, paired = FALSE, alternative, mu, conf.level)
+x, y: vectores númericos con las observaciones. para aplicar la prueba con una única muestra, y debe ser nulo (por defecto, lo es)
+paired: booleano con valor falso para indicar que las muestras son independientes (se asume por defecto)
+alternative : señala el tipo de hipótesis alternativa : bilateral ("two.sided") o unilateral ("less" o "greater")
+mu : valor nulo para la media (solo para la prueba con una muestra)
+conf.level : nivel de confianza
+
+
+----------------------------
+
+prueba de rangos con signo de Wilcoxon
+
+alternativa no paramétrica a la prueba t de Student con muestras pareadas
+
+condiciones
+
+los pares de observaciones son independientes
+la escala de medición para las observaciones es intrínsecamente continua
+la escala de medición para ambas muestras debe ser a lo menos ordinal
+
+
+ejemplo : mismos individuos evaluan 2 interfaces
+
+trabajamos bajo supuesto de normalidad, calculamos el estadístico de prueba z 
+luego obtenemos valor p mediante pnorm(1.807, mean = 0, sd = 1, lower.tail = FALSE)
+no multiplicamos por 2, pues es unilateral
+
+supuesto de normalidad es válido para n > 10 en caso contrario debemos consultar la tabla
+de valores críticos para la distribucion W
+
+wilcox.test(x, y, paired = TRUE, alternative, conf.level)
+
+
+---------------------------
+
+pruebas para más de 2 muestras
+
+alternativas no paramétricas para ANOVA de 1 vía 
+
+prueba de Kruskal-Wallis 
+
+cuando el tamaño de las muestras difieren 
+
+estadístico de prueba H
+
+cuando cada uno de los k grupos tiene a los menos 5 observaciones, 
+H sigue una distribucion X^2 con v = k - 1 grados de libertad
+calculamos valor p con pchisq
+
+es de tipo omnibus, hacer post-hoc
+
+kruskal.test(formula, data)
+
+formula: tiene la forma <variable dependiente> ~ <variable independiente (factor)>
+data: matriz de datos en formato largo
+
+post hoc, bonferroni y holm pueden realizarse con la función
+
+pairwise.wilcox.test(x, g, p.adjust.method, paired = FALSE)
+
+x : vector con la variable dependiente
+g : factor o agrupamiento
+p.adjust.method : puede ser "holm" o "bonferroni", entre otros 
+paired : valor booleano que indica si la prueba es pareada o no
+
+solo reporta los p valores ajustados
+si queremos conocer el tamaño del efecto de las diferencias detectadas
+debemos realizar las correspondientes pruebas de Wilcoxon-Mann-Whitney para
+todos los pares de grupos que presenten diferencias significativas
+
+
+---------------------
+
+prueba de friedman
+
+es una alternativa no paramétrica a ANOVA 1 VIA Muestras Correlacionadas
+pero no considera las diferencias relativas entre sujetos por lo que su poder
+estadística es menor
+
+friedman.test(formula, data)
+formula : tiene la forma <variable dependiente>~<variable independiente>|<identificador de sujeto o bloque>
+data : matriz de datos en formato largo
+
+para post hoc usamos pairwise.wilcox.test() donde argumento paired = TRUE 
+para conocer el tamaño del efecto detectado para aquellos pares relevantes, realizar
+pruebas de rangos con signo de Wilcoxon 
+
