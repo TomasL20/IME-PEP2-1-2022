@@ -1,0 +1,24 @@
+anova comparar las medias de más de dos grupos independientes
+etapa omnibus y análisis post hoc
+-------------------------------------
+anova con muestras correlacionadas
+anova nos permite comparar más de dos mediciones pareadas
+----------------------------------
+métodos no paramétricos
+
+para variables dependientes numéricas que no cumplen los requisitos para poder
+hacer inferencia sobre las medias de las poblaciones subyacentes
+-----------------------------------------
+métodos con remuestreo
+
+-----------------------------------------------
+transformación de datos y métodos robustos
+
+si los datos siguen una distribución  que se aleje de la normal
+
+podemos aplicar transformaciones ad hoc a los datos, que permitan
+aplicar los métodos ya conocidos cambiando las hipótesis contrastadas a 
+unas similares o equivalentes
+
+también podemos emplear métodos robustos, basados en medidas de tendencia
+cental distintos a la media
